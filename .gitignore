@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+.env
+chroma_db/
+data/cve_cache.json
+.pythonlibs/
+*.egg-info/
+dist/
+build/
+*.log
