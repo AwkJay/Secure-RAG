@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SecureRAG — Cybersecurity Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='4' y1='2' x2='28' y2='31' gradientUnits='userSpaceOnUse'><stop offset='0%25' stop-color='%233b82f6'/><stop offset='100%25' stop-color='%2306b6d4'/></linearGradient></defs><path d='M16 2L4 7V17C4 23.6 9.4 29.5 16 31C22.6 29.5 28 23.6 28 17V7L16 2Z' fill='url(%23g)'/><path d='M11 16l3 3 7-7' stroke='%230a0e1a' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/></svg>" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-left">
+      <button class="hamburger" id="hamburgerBtn" aria-label="Toggle sidebar">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="logo">
+        <svg class="logo-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 2L4 7V17C4 23.6 9.4 29.5 16 31C22.6 29.5 28 23.6 28 17V7L16 2Z" fill="url(#shieldGrad)" stroke="none"/>
+          <path d="M11 16l3 3 7-7" stroke="#0a0e1a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <defs>
+            <linearGradient id="shieldGrad" x1="4" y1="2" x2="28" y2="31" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#3b82f6"/>
+              <stop offset="100%" stop-color="#06b6d4"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span class="logo-text">SecureRAG</span>
+      </div>
+    </div>
+
+    <div class="tab-switcher">
+      <button class="tab-btn active" data-tab="chat" id="tabChat">
+        <span>💬</span> Chat
+      </button>
+      <button class="tab-btn" data-tab="eval" id="tabEval">
+        <span>📊</span> Evaluation
+      </button>
+    </div>
+
+    <div class="header-right">
+      <div class="status-indicator" id="statusIndicator">
+        <span class="status-dot" id="statusDot"></span>
+        <span class="status-text" id="statusText">Connecting...</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="main-container">
+
+    <!-- Sidebar overlay for mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-section">
+        <button class="btn btn-primary btn-full" id="newChatBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          New Chat
+        </button>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-label">FILTERS</div>
+        <div class="filter-group">
+          <div class="filter-title">Severity</div>
+          <label class="filter-check"><input type="checkbox" value="CRITICAL" checked class="sev-filter"> <span class="badge badge-critical">CRITICAL</span></label>
+          <label class="filter-check"><input type="checkbox" value="HIGH" checked class="sev-filter"> <span class="badge badge-high">HIGH</span></label>
+          <label class="filter-check"><input type="checkbox" value="MEDIUM" checked class="sev-filter"> <span class="badge badge-medium">MEDIUM</span></label>
+          <label class="filter-check"><input type="checkbox" value="LOW" checked class="sev-filter"> <span class="badge badge-low">LOW</span></label>
+        </div>
+        <div class="filter-group">
+          <div class="filter-title">Source</div>
+          <label class="filter-check"><input type="radio" name="sourceFilter" value="both" checked class="src-filter"> Both</label>
+          <label class="filter-check"><input type="radio" name="sourceFilter" value="nvd" class="src-filter"> NVD Only</label>
+          <label class="filter-check"><input type="radio" name="sourceFilter" value="owasp" class="src-filter"> OWASP Only</label>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <button class="btn btn-secondary btn-full" id="ingestBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/>
+            <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/>
+          </svg>
+          <span id="ingestBtnText">Ingest Data</span>
+        </button>
+        <div class="ingest-progress" id="ingestProgress" style="display:none;">
+          <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="ingestFill" style="width:0%"></div>
+          </div>
+          <span class="progress-label" id="ingestLabel">0 / 0</span>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-label">KNOWLEDGE BASE</div>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span class="stat-value" id="statDocs">—</span>
+            <span class="stat-label">Total Docs</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value" id="statCVEs">—</span>
+            <span class="stat-label">CVEs</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value" id="statOWASP">—</span>
+            <span class="stat-label">OWASP</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value" id="statQueries">—</span>
+            <span class="stat-label">Queries</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-section sidebar-history">
+        <div class="sidebar-label">EXPORT</div>
+        <button class="btn btn-ghost btn-full" id="exportBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Export Chat (.md)
+        </button>
+      </div>
+    </aside>
+
+    <!-- Chat View -->
+    <section class="view active" id="viewChat">
+      <div class="messages-container" id="messagesContainer">
+        <!-- Welcome screen -->
+        <div class="welcome-screen" id="welcomeScreen">
+          <div class="welcome-logo">
+            <svg width="64" height="64" viewBox="0 0 32 32" fill="none">
+              <path d="M16 2L4 7V17C4 23.6 9.4 29.5 16 31C22.6 29.5 28 23.6 28 17V7L16 2Z" fill="url(#wGrad)"/>
+              <path d="M11 16l3 3 7-7" stroke="#0a0e1a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <defs>
+                <linearGradient id="wGrad" x1="4" y1="2" x2="28" y2="31" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#3b82f6"/>
+                  <stop offset="100%" stop-color="#06b6d4"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <h2 class="welcome-title">SecureRAG</h2>
+          <p class="welcome-subtitle">Your cybersecurity intelligence assistant — powered by NVD CVEs and OWASP Top 10</p>
+          <div class="example-queries">
+            <button class="example-query" data-query="What are the OWASP Top 10 vulnerabilities?">What are the OWASP Top 10 vulnerabilities?</button>
+            <button class="example-query" data-query="How do I prevent SQL injection?">How do I prevent SQL injection?</button>
+            <button class="example-query" data-query="What is broken access control and how common is it?">What is broken access control and how common is it?</button>
+            <button class="example-query" data-query="What is SSRF and how can it be exploited?">What is SSRF and how can it be exploited?</button>
+            <button class="example-query" data-query="Find critical severity CVEs published recently">Find critical severity CVEs published recently</button>
+            <button class="example-query" data-query="How should I handle authentication failures in my web app?">How should I handle authentication failures in my web app?</button>
+          </div>
+        </div>
+        <!-- Messages render here -->
+      </div>
+
+      <div class="input-area">
+        <div class="input-wrap">
+          <textarea
+            id="chatInput"
+            class="chat-input"
+            placeholder="Ask about CVEs, OWASP vulnerabilities, security best practices..."
+            rows="1"
+          ></textarea>
+          <button class="send-btn" id="sendBtn" aria-label="Send">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="22" y1="2" x2="11" y2="13"/>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+          </button>
+        </div>
+        <div class="input-hint">Press <kbd>Ctrl</kbd>+<kbd>Enter</kbd> to send</div>
+      </div>
+    </section>
+
+    <!-- Eval View -->
+    <section class="view" id="viewEval">
+      <div class="eval-container">
+        <div class="eval-header">
+          <div>
+            <h2 class="eval-title">RAGAS Evaluation Dashboard</h2>
+            <p class="eval-subtitle">Scientific measurement of RAG pipeline quality using RAGAS metrics</p>
+          </div>
+          <div class="eval-actions">
+            <div class="eval-timestamp" id="evalTimestamp"></div>
+            <button class="btn btn-primary" id="runEvalBtn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="5 3 19 12 5 21 5 3"/>
+              </svg>
+              Run Evaluation
+            </button>
+          </div>
+        </div>
+
+        <!-- Empty state -->
+        <div class="eval-empty" id="evalEmpty">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="1.5">
+            <path d="M9 19v-6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2z"/>
+            <path d="M15 5v14a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2z"/>
+            <path d="M9 13H5M15 10H19"/>
+          </svg>
+          <h3>No Evaluation Results Yet</h3>
+          <p>RAGAS evaluates your RAG pipeline using 4 scientific metrics. Click <strong>Run Evaluation</strong> to start (takes ~1-2 minutes).</p>
+          <div class="metric-info-grid">
+            <div class="metric-info-card">
+              <div class="metric-info-name">Faithfulness</div>
+              <div class="metric-info-desc">Does the answer stay true to the retrieved context? Measures hallucination.</div>
+            </div>
+            <div class="metric-info-card">
+              <div class="metric-info-name">Answer Relevancy</div>
+              <div class="metric-info-desc">Is the answer actually relevant to the question asked?</div>
+            </div>
+            <div class="metric-info-card">
+              <div class="metric-info-name">Context Recall</div>
+              <div class="metric-info-desc">Did retrieval capture all the facts needed to answer correctly?</div>
+            </div>
+            <div class="metric-info-card">
+              <div class="metric-info-name">Context Precision</div>
+              <div class="metric-info-desc">Are the retrieved chunks relevant? Measures retrieval noise.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Eval results (hidden until run) -->
+        <div id="evalResults" style="display:none">
+          <div class="metric-cards" id="metricCards"></div>
+          <div class="chart-section">
+            <h3 class="section-title">Score Overview</h3>
+            <div class="chart-wrap">
+              <canvas id="evalChart"></canvas>
+            </div>
+          </div>
+          <div class="table-section">
+            <h3 class="section-title">Per-Query Results</h3>
+            <div class="table-wrap">
+              <table class="eval-table" id="evalTable">
+                <thead>
+                  <tr>
+                    <th>Query</th>
+                    <th>Faithfulness</th>
+                    <th>Answer Relevancy</th>
+                    <th>Context Recall</th>
+                    <th>Context Precision</th>
+                  </tr>
+                </thead>
+                <tbody id="evalTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Running spinner -->
+        <div class="eval-running" id="evalRunning" style="display:none">
+          <div class="spinner"></div>
+          <p>Running RAGAS evaluation... this may take a minute.</p>
+          <p class="eval-running-sub">Evaluating 10 test queries across 4 metrics</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Source Detail Modal -->
+  <div class="modal-overlay" id="sourceModal" style="display:none">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalTitle">Source Details</h3>
+        <button class="modal-close" id="modalClose">&times;</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
