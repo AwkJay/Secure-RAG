@@ -76,7 +76,7 @@ Your question
 | Vector store | ChromaDB 0.5, persistent, cosine distance |
 | Sparse search | rank-bm25 (BM25Okapi) |
 | Re-ranker | cross-encoder/ms-marco-MiniLM-L-6-v2 |
-| LLM | Groq API — llama-3.1-8b-instant (it's free) |
+| LLM | Groq API — llama-3.1-8b-instant |
 | Frontend | Vanilla HTML/CSS/JS, no framework |
 
 ---
@@ -86,7 +86,7 @@ Your question
 ### 1. Clone and install
 
 ```bash
-git clone <your-repo>
+git clone https://github.com/AwkJay/Secure-RAG
 cd securerag
 pip install -r requirements.txt
 ```
