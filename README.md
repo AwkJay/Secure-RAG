@@ -171,6 +171,68 @@ securerag/
 
 ---
 
+## Evaluation
+
+Run from `securerag/` (needs the ingested ChromaDB; dataset build and generation checks also need `GROQ_API_KEY`):
+
+```bash
+python -m evals.run --retrieval      # BM25 vs dense vs hybrid vs hybrid+rerank, no LLM calls
+python -m evals.run --generation     # citation / abstention checks (calls Groq)
+python -m evals.run --build-dataset  # regenerate evals/data/retrieval_set.jsonl
+```
+
+Results go to `evals/results/latest.md` (the full per-run JSON is gitignored).
+
+### Retrieval ablation
+
+192 labelled queries against the 2,000 CVE + 30 OWASP-chunk corpus: 60 `id` ("Tell me about CVE-…"), 58 `keyword`, 54 `natural`, 20 `owasp`.
+Metrics are binary-relevance Recall@k, MRR@10 and nDCG@10 with 95% bootstrap CIs (1000 resamples, seeded). Latency is CPU, single query at a time, retrieval only.
+
+| Config | Recall@1 | Recall@5 | Recall@10 | MRR@10 | nDCG@10 | p50 / p95 latency |
+|---|---|---|---|---|---|---|
+| BM25 | 0.760 | 0.911 | 0.932 | 0.812 [0.764, 0.859] | 0.841 | 3 / 7 ms |
+| Dense (BGE-small) | 0.464 | 0.589 | 0.625 | 0.517 [0.451, 0.583] | 0.543 | 18 / 22 ms |
+| Hybrid (RRF, k=60) | 0.776 | 0.906 | 0.953 | 0.832 [0.786, 0.879] | 0.861 | 21 / 31 ms |
+| Hybrid + cross-encoder rerank | **0.833** | **0.922** | 0.953 | **0.873** [0.833, 0.916] | **0.893** | 352 / 712 ms |
+
+What the numbers do and don't say:
+
+- **Dense alone is the weakest**, mostly because of `id` queries (MRR 0.04): embeddings don't encode identifiers. On `natural` and `keyword` queries it is close to BM25 (MRR 0.71 vs 0.77 and 0.70 vs 0.74).
+- **Hybrid vs BM25 is not a clear win on this set.** Recall@5 is 0.906 vs 0.911, and MRR differs by 0.02 with overlapping CIs. Hybrid's clearest benefit is Recall@10 and OWASP-style questions, where BM25 is weaker (MRR 0.78 vs 0.88).
+- **Reranking helps ranking quality, not recall:** paired MRR@10 +0.042 (95% CI [+0.008, +0.077]) and nDCG@10 +0.032 over hybrid; Recall@5 +0.016 with a CI that includes 0. It reranks the same 10 candidates, so Recall@10 is identical by construction. The cost is about 20x latency on CPU.
+- Hybrid, hybrid+rerank and BM25 all beat dense by a wide margin (paired Δ MRR@10 of +0.30 to +0.36, CIs exclude 0).
+
+Caveats, stated plainly:
+
+- **Queries are synthetic.** The CVE `natural` and `keyword` queries were written by an LLM from the CVE description (with the ID and any 6-word verbatim run filtered out). They still reuse product names and jargon from the document, which favours BM25. Real user questions would likely narrow the gap between lexical and dense search. The 20 OWASP questions are hand-written.
+- **Queries aren't independent:** each sampled CVE contributes up to three queries (natural, keyword, id), so the bootstrap CIs above are narrower than they should be; a cluster bootstrap by document would fix this and is not done yet.
+- Single run, single seeded sample of 60 CVEs; no tuning of RRF `k`, candidate counts or models was done, so none of this is a tuned result.
+- Near-duplicate CVEs (same product, same bug class) can make a "miss" a legitimate alternative answer, so recall is slightly understated.
+- The corpus is 2,000 recent CVEs; results would shift with a larger or older corpus.
+
+### Generation checks
+
+`rag/citations.py` extracts every CVE / OWASP ID from an answer and flags any that are not in the retrieved context or the user's own messages. The API returns this as `verification` (and as an SSE `verification` event before `done`), the UI shows a warning badge, and `securerag_unverified_citations_total` counts them. Answers are flagged, never rewritten.
+
+Measured on 40 answerable queries (30 CVE `natural` + 10 OWASP) and 10 unanswerable ones (5 nonexistent CVE IDs, 5 off-topic), using `openai/gpt-oss-20b` on Groq (see note below). No LLM judge.
+
+| Metric | Value |
+|---|---|
+| Citation precision (verified IDs / cited IDs, 63 cited) | 100% |
+| Hallucinated-ID rate, answerable | 0 / 40 |
+| Hallucinated-ID rate, unanswerable | 0 / 10 |
+| Answerable: gold ID appears in the answer | 90% (36 / 40) |
+| Answerable: wrongly abstained | 2.5% (1 / 40) |
+| Fake CVE ID: abstained | 100% (5 / 5) |
+| Off-topic: abstained | 100% (5 / 5) |
+
+- **Model caveat:** `llama-3.1-8b-instant` (the app's default) returned `404 model_not_found` for my Groq key when I ran these, so the generation numbers are for `gpt-oss-20b`, not Llama 3.1 8B. Retrieval numbers don't involve the LLM. Re-run `python -m evals.run --generation` with the intended model before quoting these for it.
+- 0 / 40 is a small sample: it means the hallucinated-ID rate is probably low, not that it is zero (the 95% upper bound is roughly 7% at n=40).
+- This checks that cited **IDs** exist in the context. It does **not** check that the surrounding claims (severity, affected versions, fixes) are faithful to the source; that needs an LLM or human judge and is future work.
+- A bug found by this harness: the model wrote IDs with non-breaking hyphens (`CVE‑2025‑64773`), which a plain regex missed and made the first run report 25% gold-cited instead of 90%. `extract_ids` now normalises Unicode dashes (covered by tests).
+
+---
+
 ## Known limitations / things I'd improve
 
 - The ChromaDB store is on disk, so on autoscale deployments the data gets baked in at build time rather than being re-ingested live. Not ideal if you want real-time CVE updates
@@ -178,3 +240,5 @@ securerag/
 - Session history is in-memory, so it resets on server restart
 
 ---
+
+*Made with too much caffeine and a genuine frustration with vague security chatbots.*

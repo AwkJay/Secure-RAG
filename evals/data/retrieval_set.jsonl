@@ -1,0 +1,192 @@
+{"qid": "q000", "query": "How can attackers modify root filesystem images on SonicWall Email Security appliance without signature verification?", "style": "natural", "gold_ids": ["CVE-2025-40604"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q001", "query": "SonicWall Email Security root filesystem integrity", "style": "keyword", "gold_ids": ["CVE-2025-40604"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q002", "query": "Tell me about CVE-2025-40604", "style": "id", "gold_ids": ["CVE-2025-40604"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q003", "query": "What Linux kernel RCU bug was fixed in sk_setup_caps and related network functions?", "style": "natural", "gold_ids": ["CVE-2025-40170"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q004", "query": "Linux kernel RCU dst_dev_rcu bug", "style": "keyword", "gold_ids": ["CVE-2025-40170"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q005", "query": "Tell me about CVE-2025-40170", "style": "id", "gold_ids": ["CVE-2025-40170"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q006", "query": "Is there a known XSS in Campcodes Retro Basketball Shoes admin_running.php product_name?", "style": "natural", "gold_ids": ["CVE-2025-13412"], "source": "NVD", "severity": "LOW"}
+{"qid": "q007", "query": "Campcodes Retro Basketball Shoes XSS", "style": "keyword", "gold_ids": ["CVE-2025-13412"], "source": "NVD", "severity": "LOW"}
+{"qid": "q008", "query": "Tell me about CVE-2025-13412", "style": "id", "gold_ids": ["CVE-2025-13412"], "source": "NVD", "severity": "LOW"}
+{"qid": "q009", "query": "Does the PublishPress Future plugin allow unauthorized status changes via REST API due to missing auth check?", "style": "natural", "gold_ids": ["CVE-2025-13149"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q010", "query": "PublishPress Future REST API status change", "style": "keyword", "gold_ids": ["CVE-2025-13149"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q011", "query": "Tell me about CVE-2025-13149", "style": "id", "gold_ids": ["CVE-2025-13149"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q012", "query": "How can I detect if a Laravel-based help desk has a broken ThreadPolicy edit access control flaw?", "style": "natural", "gold_ids": ["CVE-2026-32752"], "source": "NVD", "severity": "NONE"}
+{"qid": "q013", "query": "FreeScout ThreadPolicy edit vulnerability", "style": "keyword", "gold_ids": ["CVE-2026-32752"], "source": "NVD", "severity": "NONE"}
+{"qid": "q014", "query": "Tell me about CVE-2026-32752", "style": "id", "gold_ids": ["CVE-2026-32752"], "source": "NVD", "severity": "NONE"}
+{"qid": "q015", "query": "Which product is affected by this vulnerability?", "style": "natural", "gold_ids": ["CVE-2026-33187"], "source": "NVD", "severity": "UNKNOWN"}
+{"qid": "q016", "query": "affected product vulnerability", "style": "keyword", "gold_ids": ["CVE-2026-33187"], "source": "NVD", "severity": "UNKNOWN"}
+{"qid": "q017", "query": "Tell me about CVE-2026-33187", "style": "id", "gold_ids": ["CVE-2026-33187"], "source": "NVD", "severity": "UNKNOWN"}
+{"qid": "q018", "query": "Which WordPress plugin allows unauthenticated file uploads that could lead to remote code execution?", "style": "natural", "gold_ids": ["CVE-2025-11170"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q019", "query": "WordPress plugin arbitrary file upload", "style": "keyword", "gold_ids": ["CVE-2025-11170"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q020", "query": "Tell me about CVE-2025-11170", "style": "id", "gold_ids": ["CVE-2025-11170"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q021", "query": "Can local attackers inject SHELL variable to run commands in OpenClaw?", "style": "natural", "gold_ids": ["CVE-2026-32032"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q022", "query": "OpenClaw SHELL variable injection", "style": "keyword", "gold_ids": ["CVE-2026-32032"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q023", "query": "Tell me about CVE-2026-32032", "style": "id", "gold_ids": ["CVE-2026-32032"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q024", "query": "How can Intel NPU drivers for Windows expose sensitive data to local users?", "style": "natural", "gold_ids": ["CVE-2025-20622"], "source": "NVD", "severity": "LOW"}
+{"qid": "q025", "query": "Intel NPU driver data leak", "style": "keyword", "gold_ids": ["CVE-2025-20622"], "source": "NVD", "severity": "LOW"}
+{"qid": "q026", "query": "Tell me about CVE-2025-20622", "style": "id", "gold_ids": ["CVE-2025-20622"], "source": "NVD", "severity": "LOW"}
+{"qid": "q027", "query": "Is there a known XSS flaw in Ilevia EVE X1 firmware that lets attackers run code via index.php?", "style": "natural", "gold_ids": ["CVE-2025-60737"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q028", "query": "Ilevia EVE X1 XSS index.php", "style": "keyword", "gold_ids": ["CVE-2025-60737"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q029", "query": "Tell me about CVE-2025-60737", "style": "id", "gold_ids": ["CVE-2025-60737"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q030", "query": "How can read\u2011only API users retrieve agent enrollment credentials in Wazuh 4.9.0\u20114.12.x?", "style": "natural", "gold_ids": ["CVE-2025-64483"], "source": "NVD", "severity": "UNKNOWN"}
+{"qid": "q031", "query": "Wazuh read\u2011only API credentials exposure", "style": "keyword", "gold_ids": ["CVE-2025-64483"], "source": "NVD", "severity": "UNKNOWN"}
+{"qid": "q032", "query": "Tell me about CVE-2025-64483", "style": "id", "gold_ids": ["CVE-2025-64483"], "source": "NVD", "severity": "UNKNOWN"}
+{"qid": "q033", "query": "Can authenticated users modify device configuration via import/export in FreedomFi Englewood firmware?", "style": "natural", "gold_ids": ["CVE-2025-67112"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q034", "query": "Tell me about CVE-2025-67112", "style": "id", "gold_ids": ["CVE-2025-67112"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q035", "query": "How can I mitigate local privilege escalation in Spectrum Power 4 due to exposed debug interface?", "style": "natural", "gold_ids": ["CVE-2024-32008"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q036", "query": "Spectrum Power 4 debug interface privilege escalation", "style": "keyword", "gold_ids": ["CVE-2024-32008"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q037", "query": "Tell me about CVE-2024-32008", "style": "id", "gold_ids": ["CVE-2024-32008"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q038", "query": "Does Adobe Commerce have an information exposure flaw that can leak sensitive data without user interaction?", "style": "natural", "gold_ids": ["CVE-2026-48001"], "source": "NVD", "severity": "LOW"}
+{"qid": "q039", "query": "Adobe Commerce data leakage", "style": "keyword", "gold_ids": ["CVE-2026-48001"], "source": "NVD", "severity": "LOW"}
+{"qid": "q040", "query": "Tell me about CVE-2026-48001", "style": "id", "gold_ids": ["CVE-2026-48001"], "source": "NVD", "severity": "LOW"}
+{"qid": "q041", "query": "Does esm.sh CDN have a template literal injection flaw that allows XSS?", "style": "natural", "gold_ids": ["CVE-2025-65026"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q042", "query": "esm.sh CDN XSS template injection", "style": "keyword", "gold_ids": ["CVE-2025-65026"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q043", "query": "Tell me about CVE-2025-65026", "style": "id", "gold_ids": ["CVE-2025-65026"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q044", "query": "What does it mean when a CVE is withdrawn or rejected?", "style": "natural", "gold_ids": ["CVE-2025-12542"], "source": "NVD", "severity": "UNKNOWN"}
+{"qid": "q045", "query": "CVE withdrawn reason", "style": "keyword", "gold_ids": ["CVE-2025-12542"], "source": "NVD", "severity": "UNKNOWN"}
+{"qid": "q046", "query": "Tell me about CVE-2025-12542", "style": "id", "gold_ids": ["CVE-2025-12542"], "source": "NVD", "severity": "UNKNOWN"}
+{"qid": "q047", "query": "How can I mitigate JNDI injection in Dataease before version 2.10.17?", "style": "natural", "gold_ids": ["CVE-2025-64428"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q048", "query": "Dataease JNDI injection iiop corbaname", "style": "keyword", "gold_ids": ["CVE-2025-64428"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q049", "query": "Tell me about CVE-2025-64428", "style": "id", "gold_ids": ["CVE-2025-64428"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q050", "query": "How can an attacker exploit type confusion in Excel to run code locally?", "style": "natural", "gold_ids": ["CVE-2026-55025"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q051", "query": "Excel type confusion local execution", "style": "keyword", "gold_ids": ["CVE-2026-55025"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q052", "query": "Tell me about CVE-2026-55025", "style": "id", "gold_ids": ["CVE-2026-55025"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q053", "query": "Does Intel QAT Windows versions earlier than 2.6.0 have a denial of service flaw?", "style": "natural", "gold_ids": ["CVE-2025-32088"], "source": "NVD", "severity": "LOW"}
+{"qid": "q054", "query": "Intel QAT Windows DoS", "style": "keyword", "gold_ids": ["CVE-2025-32088"], "source": "NVD", "severity": "LOW"}
+{"qid": "q055", "query": "Tell me about CVE-2025-32088", "style": "id", "gold_ids": ["CVE-2025-32088"], "source": "NVD", "severity": "LOW"}
+{"qid": "q056", "query": "How can I detect stored XSS in Adobe Commerce form fields?", "style": "natural", "gold_ids": ["CVE-2026-47999"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q057", "query": "Adobe Commerce stored XSS", "style": "keyword", "gold_ids": ["CVE-2026-47999"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q058", "query": "Tell me about CVE-2026-47999", "style": "id", "gold_ids": ["CVE-2026-47999"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q059", "query": "What does it mean when a CVE is withdrawn?", "style": "natural", "gold_ids": ["CVE-2025-12759"], "source": "NVD", "severity": "UNKNOWN"}
+{"qid": "q060", "query": "CVE withdrawn status", "style": "keyword", "gold_ids": ["CVE-2025-12759"], "source": "NVD", "severity": "UNKNOWN"}
+{"qid": "q061", "query": "Tell me about CVE-2025-12759", "style": "id", "gold_ids": ["CVE-2025-12759"], "source": "NVD", "severity": "UNKNOWN"}
+{"qid": "q062", "query": "Is there an arbitrary file upload flaw in DzzOffice 2.3.7 or earlier via ueditor controller?", "style": "natural", "gold_ids": ["CVE-2025-63695"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q063", "query": "DzzOffice 2.3.7 file upload vulnerability", "style": "keyword", "gold_ids": ["CVE-2025-63695"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q064", "query": "Tell me about CVE-2025-63695", "style": "id", "gold_ids": ["CVE-2025-63695"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q065", "query": "How can an authorized user exploit XSS in SharePoint to spoof network traffic?", "style": "natural", "gold_ids": ["CVE-2026-55021"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q066", "query": "SharePoint XSS spoofing", "style": "keyword", "gold_ids": ["CVE-2026-55021"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q067", "query": "Tell me about CVE-2026-55021", "style": "id", "gold_ids": ["CVE-2026-55021"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q068", "query": "Does OpenClaw allow symlink-based path traversal to read files outside the root?", "style": "natural", "gold_ids": ["CVE-2026-32020"], "source": "NVD", "severity": "LOW"}
+{"qid": "q069", "query": "OpenClaw symlink path traversal", "style": "keyword", "gold_ids": ["CVE-2026-32020"], "source": "NVD", "severity": "LOW"}
+{"qid": "q070", "query": "Tell me about CVE-2026-32020", "style": "id", "gold_ids": ["CVE-2026-32020"], "source": "NVD", "severity": "LOW"}
+{"qid": "q071", "query": "How can I mitigate reflected XSS in Paid Link Manager WordPress plugin up to 0.5?", "style": "natural", "gold_ids": ["CVE-2026-1780"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q072", "query": "Paid Link Manager XSS", "style": "keyword", "gold_ids": ["CVE-2026-1780"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q073", "query": "Tell me about CVE-2026-1780", "style": "id", "gold_ids": ["CVE-2026-1780"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q074", "query": "Can a race between fallocate and garbage collection cause f2fs to crash?", "style": "natural", "gold_ids": ["CVE-2025-40150"], "source": "NVD", "severity": "UNKNOWN"}
+{"qid": "q075", "query": "f2fs fallocate GC race", "style": "keyword", "gold_ids": ["CVE-2025-40150"], "source": "NVD", "severity": "UNKNOWN"}
+{"qid": "q076", "query": "Tell me about CVE-2025-40150", "style": "id", "gold_ids": ["CVE-2025-40150"], "source": "NVD", "severity": "UNKNOWN"}
+{"qid": "q077", "query": "Wiki.js JWT logout token", "style": "keyword", "gold_ids": ["CVE-2025-56643"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q078", "query": "Tell me about CVE-2025-56643", "style": "id", "gold_ids": ["CVE-2025-56643"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q079", "query": "Is there a heap overflow in Windows RRAS that lets attackers run code over the network?", "style": "natural", "gold_ids": ["CVE-2025-62452"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q080", "query": "Windows RRAS heap overflow", "style": "keyword", "gold_ids": ["CVE-2025-62452"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q081", "query": "Tell me about CVE-2025-62452", "style": "id", "gold_ids": ["CVE-2025-62452"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q082", "query": "Portabilis i-Educar 2.11 XSS", "style": "keyword", "gold_ids": ["CVE-2026-4355"], "source": "NVD", "severity": "LOW"}
+{"qid": "q083", "query": "Tell me about CVE-2026-4355", "style": "id", "gold_ids": ["CVE-2026-4355"], "source": "NVD", "severity": "LOW"}
+{"qid": "q084", "query": "How can I detect or mitigate an out-of-bounds read in Canva Affinity's EMF handling?", "style": "natural", "gold_ids": ["CVE-2025-47873"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q085", "query": "Affinity EMF out-of-bounds read", "style": "keyword", "gold_ids": ["CVE-2025-47873"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q086", "query": "Tell me about CVE-2025-47873", "style": "id", "gold_ids": ["CVE-2025-47873"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q087", "query": "No vulnerability details provided.", "style": "natural", "gold_ids": ["CVE-2025-12152"], "source": "NVD", "severity": "UNKNOWN"}
+{"qid": "q088", "query": "none", "style": "keyword", "gold_ids": ["CVE-2025-12152"], "source": "NVD", "severity": "UNKNOWN"}
+{"qid": "q089", "query": "Tell me about CVE-2025-12152", "style": "id", "gold_ids": ["CVE-2025-12152"], "source": "NVD", "severity": "UNKNOWN"}
+{"qid": "q090", "query": "How can I exploit the unauthenticated backup upload in AudioCodes Fax Server 2.6.23?", "style": "natural", "gold_ids": ["CVE-2025-34329"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q091", "query": "AudioCodes Fax Server 2.6.23 unauthenticated upload", "style": "keyword", "gold_ids": ["CVE-2025-34329"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q092", "query": "Tell me about CVE-2025-34329", "style": "id", "gold_ids": ["CVE-2025-34329"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q093", "query": "How can I fix a CRL validation logic error in AWS-LC that lets revoked certificates bypass checks?", "style": "natural", "gold_ids": ["CVE-2026-4428"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q094", "query": "AWS-LC CRL validation bypass", "style": "keyword", "gold_ids": ["CVE-2026-4428"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q095", "query": "Tell me about CVE-2026-4428", "style": "id", "gold_ids": ["CVE-2026-4428"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q096", "query": "How can attackers bypass group authorization in OpenClaw DM pairing?", "style": "natural", "gold_ids": ["CVE-2026-32006"], "source": "NVD", "severity": "LOW"}
+{"qid": "q097", "query": "OpenClaw DM pairing allowlist bypass", "style": "keyword", "gold_ids": ["CVE-2026-32006"], "source": "NVD", "severity": "LOW"}
+{"qid": "q098", "query": "Tell me about CVE-2026-32006", "style": "id", "gold_ids": ["CVE-2026-32006"], "source": "NVD", "severity": "LOW"}
+{"qid": "q099", "query": "Is there an XSS flaw in Discourse's graphviz plugin that lets logged-in users inject JavaScript via DOT graphs?", "style": "natural", "gold_ids": ["CVE-2026-33395"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q100", "query": "Discourse graphviz XSS vulnerability", "style": "keyword", "gold_ids": ["CVE-2026-33395"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q101", "query": "Tell me about CVE-2026-33395", "style": "id", "gold_ids": ["CVE-2026-33395"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q102", "query": "How can a physical attacker exploit Dahua NVR serial port to gain privileged shell access?", "style": "natural", "gold_ids": ["CVE-2025-31703"], "source": "NVD", "severity": "UNKNOWN"}
+{"qid": "q103", "query": "Dahua NVR serial port privilege escalation", "style": "keyword", "gold_ids": ["CVE-2025-31703"], "source": "NVD", "severity": "UNKNOWN"}
+{"qid": "q104", "query": "Tell me about CVE-2025-31703", "style": "id", "gold_ids": ["CVE-2025-31703"], "source": "NVD", "severity": "UNKNOWN"}
+{"qid": "q105", "query": "How can a heap overflow in Windows GDI+ be exploited remotely?", "style": "natural", "gold_ids": ["CVE-2026-50380"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q106", "query": "Windows GDI+ heap overflow", "style": "keyword", "gold_ids": ["CVE-2026-50380"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q107", "query": "Tell me about CVE-2026-50380", "style": "id", "gold_ids": ["CVE-2026-50380"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q108", "query": "Windows WebView UAF privilege escalation", "style": "keyword", "gold_ids": ["CVE-2026-56173"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q109", "query": "Tell me about CVE-2026-56173", "style": "id", "gold_ids": ["CVE-2026-56173"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q110", "query": "Does Intel PresentMon before 2.3.1 have a denial\u2011of\u2011service vulnerability due to improper access control?", "style": "natural", "gold_ids": ["CVE-2025-32037"], "source": "NVD", "severity": "LOW"}
+{"qid": "q111", "query": "Intel PresentMon 2.3.1 denial of service", "style": "keyword", "gold_ids": ["CVE-2025-32037"], "source": "NVD", "severity": "LOW"}
+{"qid": "q112", "query": "Tell me about CVE-2025-32037", "style": "id", "gold_ids": ["CVE-2025-32037"], "source": "NVD", "severity": "LOW"}
+{"qid": "q113", "query": "How to verify expired invitations in authentik before 2025.8.5?", "style": "natural", "gold_ids": ["CVE-2025-64708"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q114", "query": "authentik invitation expiration validation", "style": "keyword", "gold_ids": ["CVE-2025-64708"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q115", "query": "Tell me about CVE-2025-64708", "style": "id", "gold_ids": ["CVE-2025-64708"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q116", "query": "What change fixed the blk-mq deadlock when nr_requests grows?", "style": "natural", "gold_ids": ["CVE-2025-40146"], "source": "NVD", "severity": "UNKNOWN"}
+{"qid": "q117", "query": "blk-mq deadlock fix", "style": "keyword", "gold_ids": ["CVE-2025-40146"], "source": "NVD", "severity": "UNKNOWN"}
+{"qid": "q118", "query": "Tell me about CVE-2025-40146", "style": "id", "gold_ids": ["CVE-2025-40146"], "source": "NVD", "severity": "UNKNOWN"}
+{"qid": "q119", "query": "How can a local attacker exploit a double fetch in Avast/AVG Antivirus kernel driver to gain privileges?", "style": "natural", "gold_ids": ["CVE-2025-13032"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q120", "query": "Avast AVG double fetch privilege escalation", "style": "keyword", "gold_ids": ["CVE-2025-13032"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q121", "query": "Tell me about CVE-2025-13032", "style": "id", "gold_ids": ["CVE-2025-13032"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q122", "query": "How can a logged-in user change other users' email addresses in Revive Adserver?", "style": "natural", "gold_ids": ["CVE-2025-48986"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q123", "query": "Revive Adserver email change bypass", "style": "keyword", "gold_ids": ["CVE-2025-48986"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q124", "query": "Tell me about CVE-2025-48986", "style": "id", "gold_ids": ["CVE-2025-48986"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q125", "query": "Does JetBrains YouTrack have a race condition that bypasses helpdesk agent limits?", "style": "natural", "gold_ids": ["CVE-2025-64773"], "source": "NVD", "severity": "LOW"}
+{"qid": "q126", "query": "YouTrack race condition agent limit bypass", "style": "keyword", "gold_ids": ["CVE-2025-64773"], "source": "NVD", "severity": "LOW"}
+{"qid": "q127", "query": "Tell me about CVE-2025-64773", "style": "id", "gold_ids": ["CVE-2025-64773"], "source": "NVD", "severity": "LOW"}
+{"qid": "q128", "query": "How can an attacker use type confusion in SQL Server to exfiltrate data?", "style": "natural", "gold_ids": ["CVE-2026-54116"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q129", "query": "SQL Server type confusion", "style": "keyword", "gold_ids": ["CVE-2026-54116"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q130", "query": "Tell me about CVE-2026-54116", "style": "id", "gold_ids": ["CVE-2026-54116"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q131", "query": "Tell me about CVE-2025-40128", "style": "id", "gold_ids": ["CVE-2025-40128"], "source": "NVD", "severity": "UNKNOWN"}
+{"qid": "q132", "query": "What are known vulnerabilities in HTSlib's cram_decode_seq that could leak memory or cause crashes?", "style": "natural", "gold_ids": ["CVE-2026-31966"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q133", "query": "HTSlib cram_decode_seq memory leak", "style": "keyword", "gold_ids": ["CVE-2026-31966"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q134", "query": "Tell me about CVE-2026-31966", "style": "id", "gold_ids": ["CVE-2026-31966"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q135", "query": "How can I mitigate stack exhaustion in Symfony's YAML parser?", "style": "natural", "gold_ids": ["CVE-2026-45133"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q136", "query": "Symfony YAML parser stack exhaustion", "style": "keyword", "gold_ids": ["CVE-2026-45133"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q137", "query": "Tell me about CVE-2026-45133", "style": "id", "gold_ids": ["CVE-2026-45133"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q138", "query": "Is there a known XSS flaw in the Campcodes beauty parlor system's admin customer list page?", "style": "natural", "gold_ids": ["CVE-2025-13484"], "source": "NVD", "severity": "LOW"}
+{"qid": "q139", "query": "Campcodes beauty parlor XSS", "style": "keyword", "gold_ids": ["CVE-2025-13484"], "source": "NVD", "severity": "LOW"}
+{"qid": "q140", "query": "Tell me about CVE-2025-13484", "style": "id", "gold_ids": ["CVE-2025-13484"], "source": "NVD", "severity": "LOW"}
+{"qid": "q141", "query": "Can malformed packets trigger a crash in Packetbeat?", "style": "natural", "gold_ids": ["CVE-2026-26933"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q142", "query": "Packetbeat out-of-bounds read", "style": "keyword", "gold_ids": ["CVE-2026-26933"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q143", "query": "Tell me about CVE-2026-26933", "style": "id", "gold_ids": ["CVE-2026-26933"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q144", "query": "Can local WiFi users exploit NETGEAR DGND3700v1 to send commands?", "style": "natural", "gold_ids": ["CVE-2026-15757"], "source": "NVD", "severity": "UNKNOWN"}
+{"qid": "q145", "query": "NETGEAR DGND3700v1 local WiFi command", "style": "keyword", "gold_ids": ["CVE-2026-15757"], "source": "NVD", "severity": "UNKNOWN"}
+{"qid": "q146", "query": "Tell me about CVE-2026-15757", "style": "id", "gold_ids": ["CVE-2026-15757"], "source": "NVD", "severity": "UNKNOWN"}
+{"qid": "q147", "query": "How to patch N-central Probe RCE deserialization?", "style": "natural", "gold_ids": ["CVE-2025-11367"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q148", "query": "N-central Probe RCE deserialization", "style": "keyword", "gold_ids": ["CVE-2025-11367"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q149", "query": "Tell me about CVE-2025-11367", "style": "id", "gold_ids": ["CVE-2025-11367"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q150", "query": "projectworlds Advanced Library Management System SQL injection", "style": "keyword", "gold_ids": ["CVE-2025-13572"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q151", "query": "Tell me about CVE-2025-13572", "style": "id", "gold_ids": ["CVE-2025-13572"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q152", "query": "Is there a known weak password issue in LibreNMS before v25.11.0?", "style": "natural", "gold_ids": ["CVE-2025-65014"], "source": "NVD", "severity": "LOW"}
+{"qid": "q153", "query": "LibreNMS weak password policy", "style": "keyword", "gold_ids": ["CVE-2025-65014"], "source": "NVD", "severity": "LOW"}
+{"qid": "q154", "query": "Tell me about CVE-2025-65014", "style": "id", "gold_ids": ["CVE-2025-65014"], "source": "NVD", "severity": "LOW"}
+{"qid": "q155", "query": "PayPal Donation Shortcode XSS", "style": "keyword", "gold_ids": ["CVE-2025-11859"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q156", "query": "Tell me about CVE-2025-11859", "style": "id", "gold_ids": ["CVE-2025-11859"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q157", "query": "What is the issue with ALSA pcm softirq handling on PREEMPT_RT that can cause a deadlock?", "style": "natural", "gold_ids": ["CVE-2025-40142"], "source": "NVD", "severity": "UNKNOWN"}
+{"qid": "q158", "query": "ALSA pcm softirq deadlock PREEMPT_RT", "style": "keyword", "gold_ids": ["CVE-2025-40142"], "source": "NVD", "severity": "UNKNOWN"}
+{"qid": "q159", "query": "Tell me about CVE-2025-40142", "style": "id", "gold_ids": ["CVE-2025-40142"], "source": "NVD", "severity": "UNKNOWN"}
+{"qid": "q160", "query": "How can I fix authentication bypass via path traversal in N-central before version 2025.4?", "style": "natural", "gold_ids": ["CVE-2025-11366"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q161", "query": "N-central authentication bypass path traversal", "style": "keyword", "gold_ids": ["CVE-2025-11366"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q162", "query": "Tell me about CVE-2025-11366", "style": "id", "gold_ids": ["CVE-2025-11366"], "source": "NVD", "severity": "CRITICAL"}
+{"qid": "q163", "query": "How can an attacker cause a denial of service on a Windows Domain Controller via untrusted pointer dereference?", "style": "natural", "gold_ids": ["CVE-2026-50424"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q164", "query": "untrusted pointer dereference Windows Domain Controller", "style": "keyword", "gold_ids": ["CVE-2026-50424"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q165", "query": "Tell me about CVE-2026-50424", "style": "id", "gold_ids": ["CVE-2026-50424"], "source": "NVD", "severity": "HIGH"}
+{"qid": "q166", "query": "Can a malformed HTTP response from a compromised cloud server crash MongoDB C driver apps?", "style": "natural", "gold_ids": ["CVE-2026-4359"], "source": "NVD", "severity": "LOW"}
+{"qid": "q167", "query": "malformed HTTP response MongoDB driver", "style": "keyword", "gold_ids": ["CVE-2026-4359"], "source": "NVD", "severity": "LOW"}
+{"qid": "q168", "query": "Tell me about CVE-2026-4359", "style": "id", "gold_ids": ["CVE-2026-4359"], "source": "NVD", "severity": "LOW"}
+{"qid": "q169", "query": "Does bqworks Accordion Slider have a stored XSS flaw up to version 1.9.13?", "style": "natural", "gold_ids": ["CVE-2025-66092"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q170", "query": "bqworks Accordion Slider stored XSS 1.9.13", "style": "keyword", "gold_ids": ["CVE-2025-66092"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q171", "query": "Tell me about CVE-2025-66092", "style": "id", "gold_ids": ["CVE-2025-66092"], "source": "NVD", "severity": "MEDIUM"}
+{"qid": "q172", "query": "What are the main prevention methods for SQL injection according to OWASP?", "style": "owasp", "gold_ids": ["A03:2021"], "source": "OWASP", "severity": null}
+{"qid": "q173", "query": "How can broken access control vulnerabilities be prevented?", "style": "owasp", "gold_ids": ["A01:2021"], "source": "OWASP", "severity": null}
+{"qid": "q174", "query": "What is SSRF and why is it in the OWASP Top 10?", "style": "owasp", "gold_ids": ["A10:2021"], "source": "OWASP", "severity": null}
+{"qid": "q175", "query": "What does OWASP say about cryptographic failures?", "style": "owasp", "gold_ids": ["A02:2021"], "source": "OWASP", "severity": null}
+{"qid": "q176", "query": "How should authentication failures be handled in web applications?", "style": "owasp", "gold_ids": ["A07:2021"], "source": "OWASP", "severity": null}
+{"qid": "q177", "query": "What is insecure design and how does it differ from implementation flaws?", "style": "owasp", "gold_ids": ["A04:2021"], "source": "OWASP", "severity": null}
+{"qid": "q178", "query": "What are vulnerable and outdated components and why are they dangerous?", "style": "owasp", "gold_ids": ["A06:2021"], "source": "OWASP", "severity": null}
+{"qid": "q179", "query": "What security logging practices does OWASP recommend?", "style": "owasp", "gold_ids": ["A09:2021"], "source": "OWASP", "severity": null}
+{"qid": "q180", "query": "How do I prevent security misconfiguration in a deployed application?", "style": "owasp", "gold_ids": ["A05:2021"], "source": "OWASP", "severity": null}
+{"qid": "q181", "query": "What are software and data integrity failures, like unsigned updates or insecure deserialization?", "style": "owasp", "gold_ids": ["A08:2021"], "source": "OWASP", "severity": null}
+{"qid": "q182", "query": "Attack scenario where an attacker changes an account number in the URL to view someone else's account", "style": "owasp", "gold_ids": ["A01:2021"], "source": "OWASP", "severity": null}
+{"qid": "q183", "query": "Example attack scenario where a server fetches a URL controlled by the attacker to reach cloud metadata", "style": "owasp", "gold_ids": ["A10:2021"], "source": "OWASP", "severity": null}
+{"qid": "q184", "query": "Why is storing passwords with unsalted MD5 hashes a problem?", "style": "owasp", "gold_ids": ["A02:2021"], "source": "OWASP", "severity": null}
+{"qid": "q185", "query": "What is a credential stuffing attack scenario and how do I stop it?", "style": "owasp", "gold_ids": ["A07:2021"], "source": "OWASP", "severity": null}
+{"qid": "q186", "query": "Default accounts, verbose error messages and unnecessary features left enabled", "style": "owasp", "gold_ids": ["A05:2021"], "source": "OWASP", "severity": null}
+{"qid": "q187", "query": "Auto-update functionality that downloads updates without verifying a signature", "style": "owasp", "gold_ids": ["A08:2021"], "source": "OWASP", "severity": null}
+{"qid": "q188", "query": "Missing threat modeling and secure design patterns in the development lifecycle", "style": "owasp", "gold_ids": ["A04:2021"], "source": "OWASP", "severity": null}
+{"qid": "q189", "query": "Using unsupported libraries and not tracking component versions", "style": "owasp", "gold_ids": ["A06:2021"], "source": "OWASP", "severity": null}
+{"qid": "q190", "query": "Insufficient logging and monitoring means breaches go undetected for months", "style": "owasp", "gold_ids": ["A09:2021"], "source": "OWASP", "severity": null}
+{"qid": "q191", "query": "Untrusted user data concatenated into an interpreter query, including LDAP and OS commands", "style": "owasp", "gold_ids": ["A03:2021"], "source": "OWASP", "severity": null}

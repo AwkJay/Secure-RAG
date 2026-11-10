@@ -1,10 +1,26 @@
+import json
 import logging
-import os
+import time
 from collections import OrderedDict
+
+import httpx
 from langchain_groq import ChatGroq
 from langchain_core.messages import HumanMessage
+from tenacity import (
+    retry,
+    stop_after_attempt,
+    wait_exponential,
+    retry_if_exception_type,
+    before_sleep_log,
+)
+
+from core.config import settings
+from core.metrics import METRICS
 from rag.hybrid_search import get_searcher
 from rag.reranker import get_reranker
+from rag.citations import verify_citations
+from rag.semantic_cache import get_cache
+from rag.embeddings import embed_query
 
 logger = logging.getLogger(__name__)
 
@@ -26,9 +42,6 @@ Chat History:
 Question: {question}
 Answer:"""
 
-MAX_HISTORY_TURNS = 6
-MAX_SESSIONS = int(os.getenv("MAX_SESSIONS", "20"))
-
 _session_store: OrderedDict = OrderedDict()
 
 _llm: ChatGroq | None = None
@@ -37,66 +50,76 @@ _llm_api_key: str = ""
 
 def get_llm() -> ChatGroq:
     global _llm, _llm_api_key
-    current_key = os.getenv("GROQ_API_KEY", "")
+    current_key = settings.groq_api_key
     if _llm is None or current_key != _llm_api_key:
         if not current_key:
-            logger.warning("GROQ_API_KEY is not set.")
+            logger.warning("GROQ_API_KEY is not set — LLM calls will fail")
         _llm = ChatGroq(
-            model="llama-3.1-8b-instant",
-            temperature=0.1,
-            max_tokens=1024,
+            model=settings.groq_model,
+            temperature=settings.groq_temperature,
+            max_tokens=settings.groq_max_tokens,
             api_key=current_key,
         )
         _llm_api_key = current_key
-        logger.info("Groq LLM client initialised.")
     return _llm
 
 
-def _apply_filters(
-    docs: list[tuple[str, dict, float]],
-    severity_filter: list[str] | None,
-    source_filter: str | None,
-) -> tuple[list[tuple[str, dict, float]], int]:
-    """Filter retrieved docs by source type and CVE severity.
+# tenacity retry for Groq — groq is occasionally flaky, especially at off-peak hours
+@retry(
+    stop=stop_after_attempt(settings.groq_max_retries),
+    wait=wait_exponential(multiplier=1, min=1, max=8),
+    retry=retry_if_exception_type((httpx.TimeoutException, httpx.HTTPStatusError)),
+    before_sleep=before_sleep_log(logger, logging.WARNING),
+    reraise=True,
+)
+def _call_llm_with_retry(llm: ChatGroq, messages: list) -> str:
+    METRICS.groq_retries.inc()
+    response = llm.invoke(messages)
+    return response.content
 
-    Returns (filtered_docs, num_filtered_out).
-    """
+
+def _classify_groq_error(e: Exception) -> str:
+    if isinstance(e, httpx.TimeoutException):
+        return "timeout"
+    if isinstance(e, httpx.HTTPStatusError):
+        if e.response.status_code == 429:
+            return "rate_limit"
+        if e.response.status_code in (401, 403):
+            return "auth"
+    return "unknown"
+
+
+def _apply_filters(docs, severity_filter, source_filter):
     if not severity_filter:
         severity_filter = ["CRITICAL", "HIGH", "MEDIUM", "LOW"]
     if not source_filter:
         source_filter = "both"
 
-    allowed_severities = {s.upper() for s in severity_filter}
+    allowed = {s.upper() for s in severity_filter}
     sf = source_filter.lower()
 
-    result = []
+    out = []
     for text, meta, score in docs:
-        source = meta.get("source", "").upper()
-
-        # Source filter
-        if sf == "nvd" and source != "NVD":
+        src = meta.get("source", "").upper()
+        if sf == "nvd" and src != "NVD":
             continue
-        if sf == "owasp" and source != "OWASP":
+        if sf == "owasp" and src != "OWASP":
             continue
-
-        # Severity filter applies only to NVD documents
-        if source == "NVD":
-            doc_severity = meta.get("severity", "UNKNOWN").upper()
-            if doc_severity not in allowed_severities:
+        if src == "NVD":
+            sev = meta.get("severity", "UNKNOWN").upper()
+            if sev not in allowed:
                 continue
+        out.append((text, meta, score))
 
-        result.append((text, meta, score))
-
-    filtered_out = len(docs) - len(result)
-    return result, filtered_out
+    return out, len(docs) - len(out)
 
 
-def _format_sources(docs: list[tuple[str, dict, float]]) -> list[dict]:
+def _format_sources(docs):
     sources = []
     seen = set()
     for _, meta, score in docs:
-        source_type = meta.get("source", "UNKNOWN")
-        if source_type == "NVD":
+        src_type = meta.get("source", "UNKNOWN")
+        if src_type == "NVD":
             cve_id = meta.get("cve_id", "UNKNOWN")
             if cve_id not in seen:
                 seen.add(cve_id)
@@ -106,7 +129,7 @@ def _format_sources(docs: list[tuple[str, dict, float]]) -> list[dict]:
                     "severity": meta.get("severity", "UNKNOWN"),
                     "score": meta.get("cvss_score", 0.0),
                 })
-        elif source_type == "OWASP":
+        elif src_type == "OWASP":
             owasp_id = meta.get("owasp_id", "UNKNOWN")
             if owasp_id not in seen:
                 seen.add(owasp_id)
@@ -118,14 +141,11 @@ def _format_sources(docs: list[tuple[str, dict, float]]) -> list[dict]:
     return sources
 
 
-def _format_context(docs: list[tuple[str, dict, float]]) -> str:
+def _format_context(docs) -> str:
     parts = []
     for text, meta, _ in docs:
-        source = meta.get("source", "UNKNOWN")
-        if source == "NVD":
-            label = meta.get("cve_id", "CVE")
-        else:
-            label = meta.get("owasp_id", "OWASP")
+        src = meta.get("source", "UNKNOWN")
+        label = meta.get("cve_id", "CVE") if src == "NVD" else meta.get("owasp_id", "OWASP")
         parts.append(f"[{label}]\n{text}")
     return "\n\n---\n\n".join(parts)
 
@@ -134,7 +154,7 @@ def _format_chat_history(history: list[dict]) -> str:
     if not history:
         return "No previous conversation."
     lines = []
-    for turn in history[-MAX_HISTORY_TURNS:]:
+    for turn in history[-settings.max_history_turns:]:
         lines.append(f"Human: {turn['human']}")
         lines.append(f"Assistant: {turn['assistant']}")
     return "\n".join(lines)
@@ -142,7 +162,7 @@ def _format_chat_history(history: list[dict]) -> str:
 
 def _get_session(session_id: str) -> list[dict]:
     if session_id not in _session_store:
-        if len(_session_store) >= MAX_SESSIONS:
+        if len(_session_store) >= settings.max_sessions:
             _session_store.popitem(last=False)
         _session_store[session_id] = []
     _session_store.move_to_end(session_id)
@@ -159,51 +179,181 @@ def clear_session(session_id: str) -> bool:
 def answer_query(
     question: str,
     session_id: str,
-    severity_filter: list[str] | None = None,
-    source_filter: str | None = None,
+    severity_filter=None,
+    source_filter=None,
 ) -> dict:
+    total_start = time.perf_counter()
+    history = _get_session(session_id)
+
+    # semantic cache — only valid for first-turn queries (no session history)
+    # multi-turn queries depend on context so we can't safely cache them
+    cache = get_cache()
+    query_embedding = None
+    if not history:
+        query_embedding = embed_query(question)
+        cached_result = cache.get(query_embedding)
+        if cached_result:
+            METRICS.cache_hits.labels("semantic").inc()
+            # still need to save to history so follow-up questions work
+            history.append({"human": question, "assistant": cached_result["answer"]})
+            return cached_result
+        METRICS.cache_misses.labels("semantic").inc()
+
+    # --- retrieval ---
+    t0 = time.perf_counter()
     searcher = get_searcher()
+    retrieved, search_meta = searcher.search(question, top_k=settings.retrieval_top_k)
+    METRICS.rag_stage_duration.labels("retrieval").observe(time.perf_counter() - t0)
+    METRICS.retrieval_count.labels("bm25").observe(search_meta.get("bm25_hits", 0))
+    METRICS.retrieval_count.labels("semantic").observe(search_meta.get("semantic_hits", 0))
+    METRICS.retrieval_count.labels("rrf").observe(search_meta.get("rrf_final", 0))
+
+    # --- rerank ---
+    t0 = time.perf_counter()
     reranker = get_reranker()
-    llm = get_llm()
+    reranked = reranker.rerank(question, retrieved, top_k=settings.rerank_top_k)
+    METRICS.rag_stage_duration.labels("rerank").observe(time.perf_counter() - t0)
+    METRICS.retrieval_count.labels("reranked").observe(len(reranked))
+    for _, _, sc in reranked:
+        METRICS.reranker_score.observe(sc)
 
-    retrieved, search_metadata = searcher.search(question, top_k=10)
-    reranked = reranker.rerank(question, retrieved, top_k=5)
+    # filter after reranking so we don't lose ranking quality
+    filtered, n_filtered = _apply_filters(reranked, severity_filter, source_filter)
+    search_meta["filtered_out"] = n_filtered
 
-    # Apply filters after reranking so ranking quality is preserved
-    filtered, filtered_out = _apply_filters(reranked, severity_filter, source_filter)
-    search_metadata["filtered_out"] = filtered_out
-
-    # If filters remove everything, fall back to full reranked set with a notice
     if not filtered and reranked:
-        logger.warning("Filters removed all results — returning unfiltered set.")
+        logger.warning("All results filtered out — falling back to unfiltered set")
         filtered = reranked
-        search_metadata["filtered_out"] = 0
+        search_meta["filtered_out"] = 0
 
     context = _format_context(filtered)
     sources = _format_sources(filtered)
 
-    history = _get_session(session_id)
-    chat_history_str = _format_chat_history(history)
-
     prompt = SYSTEM_PROMPT_TEMPLATE.format(
         context=context,
-        chat_history=chat_history_str,
+        chat_history=_format_chat_history(history),
         question=question,
     )
 
+    # --- LLM ---
+    t0 = time.perf_counter()
+    llm = get_llm()
     try:
-        response = llm.invoke([HumanMessage(content=prompt)])
-        answer = response.content
+        answer = _call_llm_with_retry(llm, [HumanMessage(content=prompt)])
+        METRICS.chat_requests.labels("success").inc()
     except Exception as e:
-        logger.error("LLM call failed: %s", e)
-        answer = "I'm sorry, I encountered an error connecting to the language model. Please check your GROQ_API_KEY and try again."
+        err_type = _classify_groq_error(e)
+        METRICS.groq_errors.labels(err_type).inc()
+        METRICS.chat_requests.labels("error").inc()
+        logger.error("LLM call failed (%s): %s", err_type, e, exc_info=True)
+        answer = "I'm sorry, I couldn't reach the language model. Please check your GROQ_API_KEY and try again."
 
-    history.append({"human": question, "assistant": answer})
-    if len(history) > MAX_HISTORY_TURNS * 2:
-        history.pop(0)
+    METRICS.rag_stage_duration.labels("llm").observe(time.perf_counter() - t0)
+    METRICS.rag_stage_duration.labels("total").observe(time.perf_counter() - total_start)
 
-    return {
+    verification = verify_citations(answer, filtered, question, history)
+    if verification["unverified"]:
+        METRICS.unverified_citations.inc(len(verification["unverified"]))
+        logger.warning("Unverified citations in answer: %s", verification["unverified"])
+
+    result = {
         "answer": answer,
         "sources": sources,
-        "search_metadata": search_metadata,
+        "search_metadata": search_meta,
+        "verification": verification,
     }
+
+    # write to semantic cache — only cache if it was a first-turn query
+    # (query_embedding is None when we skipped cache because history existed)
+    if query_embedding is not None:
+        cache.set(query_embedding, result)
+        METRICS.semantic_cache_size.set(cache.size)
+
+    history.append({"human": question, "assistant": answer})
+    if len(history) > settings.max_history_turns * 2:
+        history.pop(0)
+
+    return result
+
+
+async def stream_answer_query(
+    question: str,
+    session_id: str,
+    severity_filter=None,
+    source_filter=None,
+):
+    """Async generator that yields SSE-formatted strings.
+
+    The retrieval + reranking pipeline runs first (fast, CPU/local),
+    then we stream tokens from the LLM as they arrive from Groq.
+    """
+    total_start = time.perf_counter()
+
+    # retrieval is synchronous and fast — do it normally
+    searcher = get_searcher()
+    retrieved, search_meta = searcher.search(question, top_k=settings.retrieval_top_k)
+
+    reranker = get_reranker()
+    reranked = reranker.rerank(question, retrieved, top_k=settings.rerank_top_k)
+
+    filtered, n_filtered = _apply_filters(reranked, severity_filter, source_filter)
+    search_meta["filtered_out"] = n_filtered
+    if not filtered and reranked:
+        filtered = reranked
+        search_meta["filtered_out"] = 0
+
+    context = _format_context(filtered)
+    sources = _format_sources(filtered)
+    history = _get_session(session_id)
+
+    prompt = SYSTEM_PROMPT_TEMPLATE.format(
+        context=context,
+        chat_history=_format_chat_history(history),
+        question=question,
+    )
+
+    # send sources and metadata immediately so the frontend can render them
+    # before the first token arrives
+    meta_event = {
+        "type": "metadata",
+        "sources": sources,
+        "search_metadata": search_meta,
+    }
+    yield f"data: {json.dumps(meta_event)}\n\n"
+
+    # stream tokens
+    llm = get_llm()
+    full_answer = ""
+    try:
+        async for chunk in llm.astream([HumanMessage(content=prompt)]):
+            token = chunk.content
+            if token:
+                full_answer += token
+                yield f"data: {json.dumps({'type': 'token', 'content': token})}\n\n"
+        METRICS.chat_requests.labels("success").inc()
+    except Exception as e:
+        err_type = _classify_groq_error(e)
+        METRICS.groq_errors.labels(err_type).inc()
+        METRICS.chat_requests.labels("error").inc()
+        logger.error("LLM stream failed (%s): %s", err_type, e, exc_info=True)
+        full_answer = "Stream interrupted — please try again."
+        yield f"data: {json.dumps({'type': 'error', 'message': full_answer})}\n\n"
+
+    # flag (never rewrite) IDs the context can't support; skipped when the stream failed
+    if full_answer and not full_answer.startswith("Stream interrupted"):
+        verification = verify_citations(full_answer, filtered, question, history)
+        if verification["unverified"]:
+            METRICS.unverified_citations.inc(len(verification["unverified"]))
+            logger.warning("Unverified citations in streamed answer: %s", verification["unverified"])
+        yield f"data: {json.dumps({'type': 'verification', **verification})}\n\n"
+
+    elapsed_ms = int((time.perf_counter() - total_start) * 1000)
+    METRICS.rag_stage_duration.labels("total").observe(elapsed_ms / 1000)
+
+    yield f"data: {json.dumps({'type': 'done', 'response_time_ms': elapsed_ms})}\n\n"
+
+    # save to history
+    if full_answer:
+        history.append({"human": question, "assistant": full_answer})
+        if len(history) > settings.max_history_turns * 2:
+            history.pop(0)

@@ -24,12 +24,20 @@ class SearchMetadata(BaseModel):
     filtered_out: int = 0
 
 
+class VerificationResult(BaseModel):
+    cited: list[str] = Field(default_factory=list)
+    verified: list[str] = Field(default_factory=list)
+    unverified: list[str] = Field(default_factory=list)
+    ok: bool = True
+
+
 class ChatResponse(BaseModel):
     answer: str
     sources: list[SourceItem]
     session_id: str
     search_metadata: SearchMetadata
     response_time_ms: int
+    verification: Optional[VerificationResult] = None
 
 
 class HealthResponse(BaseModel):
@@ -49,6 +57,7 @@ class IngestStatusResponse(BaseModel):
     progress: int
     total: int
     last_completed_at: Optional[str]
+    next_scheduled_at: Optional[str] = None
 
 
 class EvaluationScores(BaseModel):
@@ -72,6 +81,7 @@ class StatsResponse(BaseModel):
     owasp_count: int
     queries_served: int
     avg_response_time_ms: float
+    semantic_cache_entries: int = 0
 
 
 class ClearSessionResponse(BaseModel):

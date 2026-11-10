@@ -10,3 +10,6 @@ data/cve_cache.json
 dist/
 build/
 *.log
+.venv/
+evals/results/*.json
+evals/results/gen_cache.json
